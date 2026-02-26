@@ -164,22 +164,64 @@ function renderDashboard() {
     calculateCurrent();
 }
 
+
 // Ініціалізація при завантаженні сторінки
 document.addEventListener('DOMContentLoaded', () => {
     updateChemistry('lifepo4');
     updateVoltage('48');
     updateScenario('balanced');
 
+    // 1. Детальная аналитика Энциклопедии
     document.querySelectorAll('details').forEach(item => {
         item.addEventListener('toggle', (event) => {
-            if (event.target.open && typeof gtag !== 'undefined') gtag('event', 'open_encyclopedia_card');
+            if (event.target.open && typeof gtag !== 'undefined') {
+                // Достаем текст заголовка конкретной карточки
+                const titleElement = item.querySelector('summary span:not(.px-2)');
+                const cardTitle = titleElement ? titleElement.innerText.trim() : 'Неизвестная карточка';
+                
+                gtag('event', 'read_encyclopedia', { 
+                    'card_title': cardTitle,
+                    'chemistry_context': state.chemistry 
+                });
+            }
         });
     });
 
+    // 2. Детальная аналитика Доната
     const donateBtn = document.getElementById('donate-button');
     if (donateBtn) {
         donateBtn.addEventListener('click', () => {
-            if (typeof gtag !== 'undefined') gtag('event', 'click_donate_author');
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'click_donate_author', {
+                    'page_location': 'configurator'
+                });
+            }
+        });
+    }
+
+    // 3. Отслеживание Калькулятора (Событие blur - когда юзер ввел цифру и кликнул мимо)
+    const capInput = document.getElementById('input-capacity');
+    const loadInput = document.getElementById('input-load');
+
+    if (capInput) {
+        capInput.addEventListener('blur', (e) => {
+            if (e.target.value && typeof gtag !== 'undefined') {
+                gtag('event', 'calculator_input', { 
+                    'parameter': 'battery_capacity', 
+                    'value': e.target.value 
+                });
+            }
+        });
+    }
+
+    if (loadInput) {
+        loadInput.addEventListener('blur', (e) => {
+            if (e.target.value && typeof gtag !== 'undefined') {
+                gtag('event', 'calculator_input', { 
+                    'parameter': 'inverter_load', 
+                    'value': e.target.value 
+                });
+            }
         });
     }
 });
