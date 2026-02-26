@@ -16,7 +16,7 @@ function updateChemistry(chem) {
     document.getElementById('label-12v').innerText = voltLabels['12'];
     document.getElementById('label-24v').innerText = voltLabels['24'];
     document.getElementById('label-48v').innerText = voltLabels['48'];
-    document.getElementById('voltage-note').innerText = `*Базові розрахунки спираються на ${db[chem].baseVoltage}В/комірку, а не на свинцеві стандарти.`;
+    document.getElementById('voltage-note').innerText = `*Базові розрахунки спираються на ${db[chem].baseVoltage}В/комірку.`;
     
     document.getElementById('encyclopedia-title-chem').innerText = chem === 'lifepo4' ? 'LiFePO4' : 'NMC';
     document.getElementById('footer-chem').innerText = chem === 'lifepo4' ? 'LiFePO4' : 'Li-ion NMC';
