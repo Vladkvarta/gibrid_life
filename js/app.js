@@ -27,6 +27,25 @@ function updateChemistry(chem) {
     document.getElementById('temp-otp-val').innerText = db[chem].tempOTP;
     document.getElementById('temp-otpr-val').innerText = db[chem].tempOTPR;
 
+    
+    const storageSoc = document.getElementById('card-storage-soc');
+    const storageCond = document.getElementById('card-storage-cond');
+    const mechTitle = document.getElementById('card-mech-title');
+    const mechDesc = document.getElementById('card-mech-desc');
+
+    if (chem === 'lifepo4') {
+        storageSoc.innerText = "50 - 60% (~3.30В/комір.)";
+        storageCond.innerText = "Сухе приміщення, +10°C ... +25°C. Раз на 6 місяців проводити контрольний цикл заряд/розряд. Балансири BMS мають бути вимкнені.";
+        mechTitle.innerText = "Фізична стяжка (Compression)";
+        mechDesc.innerText = "Призматичні корпуси вимагають жорсткої фіксації (текстоліт + шпильки) із зусиллям ~300 кгс. Це запобігає розпуханню та мікророзривам сепаратора.";
+    } else {
+        storageSoc.innerText = "40 - 50% (~3.65В/комір.)";
+        storageCond.innerText = "Прохолодне місце, +5°C ... +15°C. Зберігати ізольовано у вогнетривкому боксі або металевій шафі подалі від легкозаймистих речей.";
+        mechTitle.innerText = "Теплові зазори (Конвекція)";
+        mechDesc.innerText = "Комірки схильні до сильного нагріву. Обов'язкова дистанція 2-3 мм між елементами або використання холдерів для вільної циркуляції повітря.";
+    }
+
+
     filterEncyclopedia();
     check12vWarning();
     if (typeof gtag !== 'undefined') gtag('event', 'select_chemistry', { 'chemistry': chem });
